@@ -21,6 +21,9 @@ library
                      , servant-server
                      , wai
                      , warp
+                     , handwriting
+                     , either
+                     , transformers
   default-language:    Haskell2010
 
 executable quillio

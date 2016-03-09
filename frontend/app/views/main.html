@@ -1,5 +1,5 @@
 <br>
-<div class="container" ng-controller="MainCtrl as main">
+<div class="container">
   <!--<h1 class="center-align">Quillio</h1>
   <img id="quillioLogo" src="images/quillioLogo.png" alt="Quillio Logo" height="200"><br>-->
   
@@ -23,28 +23,27 @@
           <div class="col s12">
             
             <!-- Color Panel -->
-            <div class="card-panel z-depth-1 colorPicker red"></div>
+            <div class="card-panel z-depth-1 colorPicker" ng-style="{'background': main.myColor}"></div>
             
             <!-- Ranges -->
-            <form action="#">
+            <form action="{{main.changeColor()}}">
               <p class="range-field" ng-init="main.redRangeValue = 128">
                 <input type="range" id="redRange" min="0" max="255" ng-model="main.redRangeValue" />
               </p>
             </form>
-            <form action="#">
+            <form action="{{main.changeColor()}}">
               <p class="range-field" ng-init="main.greenRangeValue = 128">
                 <input type="range" id="greenRange" min="0" max="255" ng-model="main.greenRangeValue" />
               </p>
             </form>
-            <form action="#">
+            <form action="{{main.changeColor()}}">
               <p class="range-field" ng-init="main.blueRangeValue = 128">
                 <input type="range" id="blueRange" min="0" max="255" ng-model="main.blueRangeValue" />
               </p>
             </form>
             
-            {{main.redRangeValue}}
-            {{main.greenRangeValue}}
-            {{main.blueRangeValue}}
+            {{main.handwritingStyle}}
+            
             
           </div>
           
@@ -53,12 +52,21 @@
         <!-- Handwriting Selector -->
         <div class="col s6">
           <h5 class="grey-text center-align">Style</h5>
-          <ul class="collapsible popout" data-collapsible="accordion" watch>
-            <li ng-repeat="single in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
-                <div class="collapsible-header"><i class="{{single.icon}}"></i>{{single.title}}</div>
-                <div class="collapsible-body"><p>{{single.content}}</p></div>
+          
+          
+          <select class="handwritingSelection" ng-model="main.handwritingStyle" material-select watch>
+            <option ng-repeat="handwriting in main.handwritings track by handwriting.handwritingId">{{handwriting.title}}</option>
+          </select>
+          
+          
+          <!--<ul class="collapsible popout" data-collapsible="accordion" watch>
+            <li ng-repeat="handwriting in main.handwritings">
+                <div class="collapsible-header"><i class="{{single.icon}}"></i>"{{handwriting.title}}"
+                  <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+                </div>
+                <div class="collapsible-body"><p></p>{{handwriting.title}}</div>
             </li>
-          </ul>
+          </ul>-->
           
           
         </div>
@@ -67,11 +75,15 @@
   </div>
 </div>
   
+<br>
+
+<!-- Message field -->
 <div input-field>
-  <textarea ng-model="main.messageInput" class="materialize-textarea"></textarea>
+  <textarea ng-model="main.messageInput" class="materialize-textarea" length="140"></textarea>
   <label>Message</label>
 </div>
 
+<!-- Buttons -->
 <button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">Update
   <i class="material-icons right">send</i>
 </button>
@@ -82,3 +94,5 @@
   
   
 </div>
+
+<script>$('.collapsible').collapsible();</script>
