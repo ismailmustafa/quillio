@@ -1,0 +1,23 @@
+ 
+  /* Sticky Footer */
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+  
+  /* Center Logo */
+  #quillioLogo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .colorPicker {
+    height: 200px;
+  }

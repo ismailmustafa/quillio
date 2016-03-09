@@ -1,0 +1,84 @@
+<br>
+<div class="container" ng-controller="MainCtrl as main">
+  <!--<h1 class="center-align">Quillio</h1>
+  <img id="quillioLogo" src="images/quillioLogo.png" alt="Quillio Logo" height="200"><br>-->
+  
+  <!-- Enter text here -->
+
+<div class="card">
+  <div class="card-image waves-effect waves-block waves-light">
+    <img class="activator" src="images/quillioLogo.png">
+  </div>
+  <div class="card-content">
+    <span class="card-title activator grey-text text-darken-4" ng-init="main.messageInput = 'Quillio'">{{main.messageInput}}<i class="material-icons right">more_vert</i></span>
+  </div>
+  <div class="card-reveal">
+    <span class="card-title grey-text text-darken-4 center-align">Handwriting Settings<i class="material-icons right">close</i></span>
+      <div class="row">
+        
+        <!-- Color Selector -->
+        <div class="col s6">
+          <h5 class="grey-text center-align">Color</h5>
+      
+          <div class="col s12">
+            
+            <!-- Color Panel -->
+            <div class="card-panel z-depth-1 colorPicker red"></div>
+            
+            <!-- Ranges -->
+            <form action="#">
+              <p class="range-field" ng-init="main.redRangeValue = 128">
+                <input type="range" id="redRange" min="0" max="255" ng-model="main.redRangeValue" />
+              </p>
+            </form>
+            <form action="#">
+              <p class="range-field" ng-init="main.greenRangeValue = 128">
+                <input type="range" id="greenRange" min="0" max="255" ng-model="main.greenRangeValue" />
+              </p>
+            </form>
+            <form action="#">
+              <p class="range-field" ng-init="main.blueRangeValue = 128">
+                <input type="range" id="blueRange" min="0" max="255" ng-model="main.blueRangeValue" />
+              </p>
+            </form>
+            
+            {{main.redRangeValue}}
+            {{main.greenRangeValue}}
+            {{main.blueRangeValue}}
+            
+          </div>
+          
+        </div>
+        
+        <!-- Handwriting Selector -->
+        <div class="col s6">
+          <h5 class="grey-text center-align">Style</h5>
+          <ul class="collapsible popout" data-collapsible="accordion" watch>
+            <li ng-repeat="single in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+                <div class="collapsible-header"><i class="{{single.icon}}"></i>{{single.title}}</div>
+                <div class="collapsible-body"><p>{{single.content}}</p></div>
+            </li>
+          </ul>
+          
+          
+        </div>
+        
+      </div>
+  </div>
+</div>
+  
+<div input-field>
+  <textarea ng-model="main.messageInput" class="materialize-textarea"></textarea>
+  <label>Message</label>
+</div>
+
+<button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">Update
+  <i class="material-icons right">send</i>
+</button>
+
+<button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">Send
+  <i class="material-icons right">send</i>
+</button>
+  
+  
+</div>
