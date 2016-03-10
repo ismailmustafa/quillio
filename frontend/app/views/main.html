@@ -5,9 +5,11 @@
   
   <!-- Enter text here -->
 
+<!--{{main.imageData.image_url}}-->
 <div class="card">
   <div class="card-image waves-effect waves-block waves-light">
-    <img class="activator" src="images/quillioLogo.png">
+    <img class="activator" ng-model="main.imageData" src="images/quillioLogo.png" data-ng-src="data:image/PNG;base64,{{main.imageData}}">
+    <!--data-ng-src="data:image/PNG;base64,{{main.imageData}}"-->
   </div>
   <div class="card-content">
     <span class="card-title activator grey-text text-darken-4" ng-init="main.messageInput = 'Quillio'">{{main.messageInput}}<i class="material-icons right">more_vert</i></span>
@@ -23,7 +25,7 @@
           <div class="col s12">
             
             <!-- Color Panel -->
-            <div class="card-panel z-depth-1 colorPicker" ng-style="{'background': main.myColor}"></div>
+            <div class="card-panel z-depth-1 colorPicker" ng-style="{'background': main.handwritingColor}"></div>
             
             <!-- Ranges -->
             <form action="{{main.changeColor()}}">
@@ -84,7 +86,7 @@
 </div>
 
 <!-- Buttons -->
-<button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">Update
+<button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action" ng-click='main.getImage()'>Update
   <i class="material-icons right">send</i>
 </button>
 

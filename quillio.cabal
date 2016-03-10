@@ -24,6 +24,8 @@ library
                      , handwriting
                      , either
                      , transformers
+                     , bytestring
+                     , base64-bytestring
   default-language:    Haskell2010
 
 executable quillio
