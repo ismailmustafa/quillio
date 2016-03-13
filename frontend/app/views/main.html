@@ -1,20 +1,17 @@
 <br>
 <div class="container">
-  <!--<h1 class="center-align">Quillio</h1>
-  <img id="quillioLogo" src="images/quillioLogo.png" alt="Quillio Logo" height="200"><br>-->
   
   <!-- Enter text here -->
 
 <!--{{main.imageData.image_url}}-->
-<div class="card">
-  <div class="card-image waves-effect waves-block waves-light">
+<div class="card grey lighten-4 hoverable">
+  <div class="card-image waves-effect">
     <img class="activator" ng-model="main.imageData" src="images/quillioLogo.png" data-ng-src="data:image/PNG;base64,{{main.imageData}}">
-    <!--data-ng-src="data:image/PNG;base64,{{main.imageData}}"-->
   </div>
   <div class="card-content">
-    <span class="card-title activator grey-text text-darken-4" ng-init="main.messageInput = 'Quillio'">{{main.messageInput}}<i class="material-icons right">more_vert</i></span>
+    <span class="card-title activator grey-text text-darken-4 truncate" ng-init="main.messageInput = 'Quillio'">{{main.messageInput}}<i class="material-icons right">more_vert</i></span>
   </div>
-  <div class="card-reveal">
+  <div class="card-reveal grey lighten-4">
     <span class="card-title grey-text text-darken-4 center-align">Handwriting Settings<i class="material-icons right">close</i></span>
       <div class="row">
         
@@ -29,24 +26,21 @@
             
             <!-- Ranges -->
             <form action="{{main.changeColor()}}">
-              <p class="range-field" ng-init="main.redRangeValue = 128">
+              <p class="range-field" ng-init="main.redRangeValue = 0">
                 <input type="range" id="redRange" min="0" max="255" ng-model="main.redRangeValue" />
               </p>
             </form>
             <form action="{{main.changeColor()}}">
-              <p class="range-field" ng-init="main.greenRangeValue = 128">
+              <p class="range-field" ng-init="main.greenRangeValue = 0">
                 <input type="range" id="greenRange" min="0" max="255" ng-model="main.greenRangeValue" />
               </p>
             </form>
             <form action="{{main.changeColor()}}">
-              <p class="range-field" ng-init="main.blueRangeValue = 128">
+              <p class="range-field" ng-init="main.blueRangeValue = 0">
                 <input type="range" id="blueRange" min="0" max="255" ng-model="main.blueRangeValue" />
               </p>
             </form>
-            
-            {{main.handwritingStyle}}
-            
-            
+ 
           </div>
           
         </div>
@@ -59,24 +53,17 @@
           <select class="handwritingSelection" ng-model="main.handwritingStyle" material-select watch>
             <option ng-repeat="handwriting in main.handwritings track by handwriting.handwritingId">{{handwriting.title}}</option>
           </select>
-          
-          
-          <!--<ul class="collapsible popout" data-collapsible="accordion" watch>
-            <li ng-repeat="handwriting in main.handwritings">
-                <div class="collapsible-header"><i class="{{single.icon}}"></i>"{{handwriting.title}}"
-                  <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
-                </div>
-                <div class="collapsible-body"><p></p>{{handwriting.title}}</div>
-            </li>
-          </ul>-->
-          
-          
+             
         </div>
-        
       </div>
   </div>
 </div>
-  
+
+<!-- Loader -->
+<div class="progress red darken-4 fade" ng-show="main.gettingImage">
+  <div class="indeterminate red lighten-5"></div>
+</div>
+
 <br>
 
 <!-- Message field -->
@@ -86,15 +73,12 @@
 </div>
 
 <!-- Buttons -->
-<button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action" ng-click='main.getImage()'>Update
+<button class="btn waves-effect waves-light red darken-4" type="submit" name="action" ng-click='main.getImage()'>Update
   <i class="material-icons right">send</i>
 </button>
 
-<button class="btn waves-effect waves-light light-blue darken-4" type="submit" name="action">Send
+<button class="btn waves-effect waves-light red darken-4" type="submit" name="action">Send
   <i class="material-icons right">send</i>
 </button>
-  
   
 </div>
-
-<script>$('.collapsible').collapsible();</script>
