@@ -12,6 +12,7 @@ angular.module('frontendApp')
     
     var mainScope = this;
     this.messageInput = 'Quillio';
+    this.phoneInput = '';
     this.colorPickerColor = 'red';
     this.redRangeValue = 0;
     this.greenRangeValue = 0;
@@ -21,8 +22,8 @@ angular.module('frontendApp')
     this.imageData = undefined;
     this.lookupTitle = {};
     this.handwritings = [];
-    this.gettingImage = false;
-    this.currentImageId = '';
+    this.imageLoader = false;
+    this.currentImageId = undefined;
     
     this.changeColor = function () {
       // Convert to hex
@@ -51,7 +52,7 @@ angular.module('frontendApp')
     // Update handwriting image
     this.getImage = function() {
 
-      this.gettingImage = true;
+      this.imageLoader = true;
       this.currentImageId = this.randomAlphaNumericString(30);
       if (this.handwritingStyle === undefined) { this.handwritingStyle = 'Whitwell'; }
       var queryString = this.baseUrl + '/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
@@ -60,7 +61,24 @@ angular.module('frontendApp')
                                                             '&text=' + this.messageInput;
       $http.get(queryString).success(function(data) {
         mainScope.imageData = data;
-        mainScope.gettingImage = false;
+        mainScope.imageLoader = false;
+      });
+    };
+    
+    // Update handwriting image
+    this.sendImage = function() {
+
+      this.imageLoader = true;
+      
+      var parameter = JSON.stringify({imageId:this.currentImageId, phoneNumber:this.phoneInput});
+      $http.post(this.baseUrl + '/api/sendImage', parameter).success(function(data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+          console.log(data + '\n' + status + '\n' + headers + '\n' + config);
+        }).error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          console.log(data + '\n' + status + '\n' + headers + '\n' + config);
       });
     };
     
@@ -68,7 +86,7 @@ angular.module('frontendApp')
     var s = '';
     while(s.length < x && x > 0){
         var r = Math.random();
-        s+= (r<0.1?Math.floor(r*100):String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65)));
+        s+= (r < 0.1 ? Math.floor(r*100) : String.fromCharCode(Math.floor(r*26) + (r > 0.5 ?97 : 65)));
     }
     return s;
   };

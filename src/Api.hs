@@ -10,6 +10,8 @@ import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Trans.Either (EitherT)
 import Data.Aeson
 import Data.Aeson.TH
+import Data.Text (pack)
+import Data.Monoid ((<>))
 import Network.Handwriting
 import Network.Wai
 import Network.Wai.Handler.Warp
@@ -23,6 +25,9 @@ import Data.Word (Word8)
 import Twilio
 import ImageWriter
 
+baseUrl :: String
+baseUrl = "http://ec2-52-32-2-100.us-west-2.compute.amazonaws.com"
+
 type API = "api" :> "image" :> QueryParam "red" Word8
                    :> QueryParam "green" Word8
                    :> QueryParam "blue" Word8
@@ -31,6 +36,9 @@ type API = "api" :> "image" :> QueryParam "red" Word8
                    :> QueryParam "text" String
                    :> Get '[OctetStream] BS.ByteString
          :<|> "api" :> "handwritings" :> Get '[JSON] [Handwriting]
+         :<|> "api" :> "sendImage" :> QueryParam "imageId" String
+                                   :> QueryParam "phoneNumber" String
+                                   :> Post '[JSON] ()
          :<|> Raw
 
 startApp :: IO ()
@@ -43,7 +51,7 @@ api :: Proxy API
 api = Proxy
 
 server :: Server API
-server = getImage :<|> allHandwritings :<|> serveDirectory "frontend/dist/"
+server = getImage :<|> allHandwritings :<|> sendMMS :<|> serveDirectory "frontend/dist/"
 
 allHandwritings :: EitherT ServantErr IO [Handwriting]
 allHandwritings = do
@@ -71,4 +79,9 @@ getImage r g b imgS s t = do
   let base64Image = B.encode $ BSL.toStrict image
   return base64Image
 
-
+sendMMS :: Maybe String -> Maybe String -> EitherT ServantErr IO ()
+sendMMS imageId phoneNumber = do
+  let imgId = fromMaybe "" imageId
+      phone = pack $ fromMaybe "" phoneNumber
+      imageUrl =  pack $ baseUrl <> "/himages/" <> imgId <> ".png"
+  liftIO $ sendImage imageUrl phone

@@ -9,7 +9,8 @@
     <img class="activator" ng-model="main.imageData" src="images/quillioLogo.png" data-ng-src="data:image/PNG;base64,{{main.imageData}}">
   </div>
   <div class="card-content">
-    <span class="card-title activator grey-text text-darken-4 truncate" ng-init="main.messageInput = 'Quillio'">{{main.messageInput}}<i class="material-icons right">more_vert</i></span>
+    <!--<span class="card-title activator grey-text text-darken-4" ng-init="main.messageInput = 'Send handwritten messages over text!'">{{main.messageInput}}<i class="material-icons right">more_vert</i></span>-->
+    <span class="card-title activator grey-text text-darken-4">Send handwritten messages over text!<i class="material-icons right">more_vert</i></span>
   </div>
   <div class="card-reveal grey lighten-4">
     <span class="card-title grey-text text-darken-4 center-align">Handwriting Settings<i class="material-icons right">close</i></span>
@@ -60,25 +61,44 @@
 </div>
 
 <!-- Loader -->
-<div class="progress red darken-4 fade" ng-show="main.gettingImage">
+<div class="progress red darken-4 fade" ng-show="main.imageLoader">
   <div class="indeterminate red lighten-5"></div>
 </div>
 
 <br>
 
 <!-- Message field -->
-<div input-field>
-  <textarea ng-model="main.messageInput" class="materialize-textarea" length="140"></textarea>
-  <label>Message</label>
-</div>
+<div class="row">
+    <form name="inputForm" class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="material-icons prefix">message</i>
+          <input name="message" ng-init="main.messageInput = 'Quillio'" ng-model="main.messageInput" id="icon_prefix" type="text" class="validate" required>
+          <label for="icon_prefix">message</label>
+        </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">phone</i>
+          <input ng-init="main.phoneInput = ''" ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/" ng-model="main.phoneInput" name="phone" id="icon_telephone" type="tel" class="validate">
+          <label for="icon_telephone">phone number</label>
+        </div>
+      </div>
+      
+      
+      <!-- Buttons -->
+        <!-- Update button -->
+      <button class="btn waves-effect waves-light red darken-4" type="submit" name="action" ng-disabled="inputForm.message.$invalid" ng-click='main.getImage()'>Update
+        <i class="material-icons right">replay</i>
+      </button>
 
-<!-- Buttons -->
-<button class="btn waves-effect waves-light red darken-4" type="submit" name="action" ng-click='main.getImage()'>Update
-  <i class="material-icons right">send</i>
-</button>
+        <!-- Send button -->
+      <button class="btn waves-effect waves-light red darken-4" type="submit" name="action" ng-disabled="inputForm.phone.$error.pattern || main.phoneInput.length === 0" ng-click='main.sendImage()'>Send
+        <i class="material-icons right">send</i>
+      </button>
+      
+      
+    </form>
+  </div>
 
-<button class="btn waves-effect waves-light red darken-4" type="submit" name="action">Send
-  <i class="material-icons right">send</i>
-</button>
+
   
 </div>
