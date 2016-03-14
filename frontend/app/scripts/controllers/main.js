@@ -39,7 +39,8 @@ angular.module('frontendApp')
     };
 
     // Get all handwritings
-    $http.get('http://localhost:8080/api/handwritings').success(function(data) {
+    this.baseUrl = 'http://ec2-52-32-2-100.us-west-2.compute.amazonaws.com';
+    $http.get(this.baseUrl + '/api/handwritings').success(function(data) {
       mainScope.handwritings = data;
       mainScope.lookup = {};
       for (var i = 0, len = data.length; i < len; i++) {
@@ -53,7 +54,7 @@ angular.module('frontendApp')
       this.gettingImage = true;
       this.currentImageId = this.randomAlphaNumericString(30);
       if (this.handwritingStyle === undefined) { this.handwritingStyle = 'Whitwell'; }
-      var queryString = 'http://localhost:8080/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
+      var queryString = this.baseUrl + '/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
                                                             '&blue=' + this.blueRangeValue + '&imageId=' + this.currentImageId + 
                                                             '&handwritingId=' + this.lookup[this.handwritingStyle].handwritingId + 
                                                             '&text=' + this.messageInput;
