@@ -28,7 +28,6 @@ angular.module('frontendApp')
       // Convert to hex
       var hexColor = this.rgb2hex(this.redRangeValue,this.greenRangeValue,this.blueRangeValue);
       this.handwritingColor = hexColor;
-      console.log(this.handwritingColor);
     };
     
     // Convert RGB to Hex
@@ -40,7 +39,7 @@ angular.module('frontendApp')
     };
 
     // Get all handwritings
-    $http.get('http://localhost:8080/handwritings').success(function(data) {
+    $http.get('http://localhost:8080/api/handwritings').success(function(data) {
       mainScope.handwritings = data;
       mainScope.lookup = {};
       for (var i = 0, len = data.length; i < len; i++) {
@@ -53,13 +52,11 @@ angular.module('frontendApp')
 
       this.gettingImage = true;
       this.currentImageId = this.randomAlphaNumericString(30);
-      console.log(this.currentImageId);
       if (this.handwritingStyle === undefined) { this.handwritingStyle = 'Whitwell'; }
-      var queryString = 'http://localhost:8080/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
+      var queryString = 'http://localhost:8080/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
                                                             '&blue=' + this.blueRangeValue + '&imageId=' + this.currentImageId + 
                                                             '&handwritingId=' + this.lookup[this.handwritingStyle].handwritingId + 
                                                             '&text=' + this.messageInput;
-      console.log(queryString);
       $http.get(queryString).success(function(data) {
         mainScope.imageData = data;
         mainScope.gettingImage = false;

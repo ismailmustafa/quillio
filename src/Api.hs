@@ -23,14 +23,14 @@ import Data.Word (Word8)
 import Twilio
 import ImageWriter
 
-type API = "image" :> QueryParam "red" Word8
+type API = "api" :> "image" :> QueryParam "red" Word8
                    :> QueryParam "green" Word8
                    :> QueryParam "blue" Word8
                    :> QueryParam "imageId" String
                    :> QueryParam "handwritingId" String
                    :> QueryParam "text" String
                    :> Get '[OctetStream] BS.ByteString
-         :<|> "handwritings" :> Get '[JSON] [Handwriting] 
+         :<|> "api" :> "handwritings" :> Get '[JSON] [Handwriting]
          :<|> Raw
 
 startApp :: IO ()
