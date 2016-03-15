@@ -32,14 +32,13 @@ angular.module('frontendApp')
     });
     
     // HTTP REQUESTS
-    this.baseUrl = 'http://ec2-52-32-2-100.us-west-2.compute.amazonaws.com';
     
     // Initalize handwritings
     this.handwritings.push("hello");
     console.log(this.handwritings.length);
     console.log("initialized");
     // Get all handwritings
-    $http.get(this.baseUrl + '/api/handwritings').success(function(data) {
+    $http.get('/api/handwritings').success(function(data) {
       mainScope.handwritings = data;
       mainScope.lookup = {};
       for (var i = 0, len = data.length; i < len; i++) {
@@ -54,8 +53,8 @@ angular.module('frontendApp')
       this.currentImageId = this.randomAlphaNumericString(30);
       console.log(this.handwritingStyle);
       if (this.handwritingStyle === undefined) { this.handwritingStyle = 'Whitwell'; }
-      if (this.handwritingStyle in this.handwritings) {
-        var queryString = this.baseUrl + '/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
+      if (this.handwritingStyle in this.lookup) {
+        var queryString = '/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
                                                               '&blue=' + this.blueRangeValue + '&imageId=' + this.currentImageId + 
                                                               '&handwritingId=' + this.lookup[this.handwritingStyle].handwritingId + 
                                                               '&text=' + this.messageInput;
@@ -80,7 +79,7 @@ angular.module('frontendApp')
 
       this.imageLoader = true;
       
-      $http.post(this.baseUrl + '/api/sendImage/?imageId='+this.currentImageId+'&phoneNumber=' + this.phoneInput).success(function() {
+      $http.post('/api/sendImage/?imageId='+this.currentImageId+'&phoneNumber=' + this.phoneInput).success(function() {
           mainScope.imageLoader = false;
           Materialize.toast('image sent',2000);
         }).error(function() {

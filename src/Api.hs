@@ -25,7 +25,7 @@ import           System.Environment
 import           Twilio
 
 baseUrl :: String
-baseUrl = "http://ec2-52-32-2-100.us-west-2.compute.amazonaws.com"
+baseUrl = "quillio.ink"
 
 type API = "api" :> "image"        :> QueryParam "red" Word8
                                    :> QueryParam "green" Word8
