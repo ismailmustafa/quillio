@@ -28,7 +28,7 @@ angular.module('frontendApp')
     
     // Setup responsive side menu
     $(".button-collapse").sideNav({
-      closeOnClock: true
+      closeOnClick: true
     });
     
     // HTTP REQUESTS
