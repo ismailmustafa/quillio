@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module ImageWriter where
+module ImageWriter (writeImage) where
 
 import Data.ByteString.Lazy (writeFile, ByteString)
 import Prelude hiding       (writeFile) 
@@ -8,9 +8,9 @@ import System.FilePath      ((</>))
 import Data.Monoid          ((<>))
 
 type ImageId = String
-
 type Image   = ByteString
 
+-- Write image to himages directory given image id
 writeImage :: ImageId -> Image -> IO ()
 writeImage imgId img = do
   dir <- getCurrentDirectory

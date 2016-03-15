@@ -24,6 +24,72 @@ angular.module('frontendApp')
     this.handwritings = [];
     this.imageLoader = false;
     this.currentImageId = undefined;
+    this.displayError = false;
+    
+    // Setup responsive side menu
+    $(".button-collapse").sideNav({
+      closeOnClock: true
+    });
+    
+    // HTTP REQUESTS
+    this.baseUrl = 'http://ec2-52-32-2-100.us-west-2.compute.amazonaws.com';
+    
+    // Initalize handwritings
+    this.handwritings.push("hello");
+    console.log(this.handwritings.length);
+    console.log("initialized");
+    // Get all handwritings
+    $http.get(this.baseUrl + '/api/handwritings').success(function(data) {
+      mainScope.handwritings = data;
+      mainScope.lookup = {};
+      for (var i = 0, len = data.length; i < len; i++) {
+        mainScope.lookup[data[i].title] = data[i];
+      }
+    });
+    
+    // Update handwriting image
+    this.getImage = function() {
+
+      this.imageLoader = true;
+      this.currentImageId = this.randomAlphaNumericString(30);
+      console.log(this.handwritingStyle);
+      if (this.handwritingStyle === undefined) { this.handwritingStyle = 'Whitwell'; }
+      if (this.handwritingStyle in this.handwritings) {
+        var queryString = this.baseUrl + '/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
+                                                              '&blue=' + this.blueRangeValue + '&imageId=' + this.currentImageId + 
+                                                              '&handwritingId=' + this.lookup[this.handwritingStyle].handwritingId + 
+                                                              '&text=' + this.messageInput;
+        $http.get(queryString).success(function(data) {
+          mainScope.imageData = data;
+          mainScope.imageLoader = false;
+          Materialize.toast('updated image',2000);
+        }).error(function() {
+          mainScope.imageLoader = false;
+          Materialize.toast('failed to update image',2000);
+        });
+      }
+      else {
+        mainScope.imageLoader = false;
+        this.displayError = true;
+        Materialize.toast('failed to update image',2000);
+      }
+    };
+    
+    // Update handwriting image
+    this.sendImage = function() {
+
+      this.imageLoader = true;
+      
+      $http.post(this.baseUrl + '/api/sendImage/?imageId='+this.currentImageId+'&phoneNumber=' + this.phoneInput).success(function() {
+          mainScope.imageLoader = false;
+          Materialize.toast('image sent',2000);
+        }).error(function() {
+          mainScope.imageLoader = false;
+          Materialize.toast('failed to send image',2000);
+      });
+    };
+    
+    // HELPER FUNCTIONS
     
     this.changeColor = function () {
       // Convert to hex
@@ -38,50 +104,8 @@ angular.module('frontendApp')
         ('0' + parseInt(g,10).toString(16)).slice(-2) +
         ('0' + parseInt(b,10).toString(16)).slice(-2);
     };
-
-    // Get all handwritings
-    this.baseUrl = 'http://ec2-52-32-2-100.us-west-2.compute.amazonaws.com';
-    $http.get(this.baseUrl + '/api/handwritings').success(function(data) {
-      mainScope.handwritings = data;
-      mainScope.lookup = {};
-      for (var i = 0, len = data.length; i < len; i++) {
-        mainScope.lookup[data[i].title] = data[i];
-      }
-    });
     
-    // Update handwriting image
-    this.getImage = function() {
-
-      this.imageLoader = true;
-      this.currentImageId = this.randomAlphaNumericString(30);
-      if (this.handwritingStyle === undefined) { this.handwritingStyle = 'Whitwell'; }
-      var queryString = this.baseUrl + '/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
-                                                            '&blue=' + this.blueRangeValue + '&imageId=' + this.currentImageId + 
-                                                            '&handwritingId=' + this.lookup[this.handwritingStyle].handwritingId + 
-                                                            '&text=' + this.messageInput;
-      $http.get(queryString).success(function(data) {
-        mainScope.imageData = data;
-        mainScope.imageLoader = false;
-      });
-    };
-    
-    // Update handwriting image
-    this.sendImage = function() {
-
-      this.imageLoader = true;
-      
-      var parameter = JSON.stringify({imageId:this.currentImageId, phoneNumber:this.phoneInput});
-      $http.post(this.baseUrl + '/api/sendImage', parameter).success(function(data, status, headers, config) {
-          // this callback will be called asynchronously
-          // when the response is available
-          console.log(data + '\n' + status + '\n' + headers + '\n' + config);
-        }).error(function(data, status, headers, config) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          console.log(data + '\n' + status + '\n' + headers + '\n' + config);
-      });
-    };
-    
+    // Generate arbitrary string for imageId
     this.randomAlphaNumericString = function(x){
     var s = '';
     while(s.length < x && x > 0){

@@ -72,3 +72,16 @@
 .fade.ng-hide-add {
   transition: all linear 250ms;
 }
+
+/* Footer media queries */
+@media (min-width:0px) and (max-width:400px) {
+	h6 {
+    font-size: 11px;
+  }
+}
+
+@media (min-width:400px) and (max-width:600px) {
+	h6 {
+    font-size: 13px;
+  }
+}

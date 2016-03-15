@@ -22,18 +22,33 @@
     <![endif]-->
 
     <!-- navigation Bar -->
-     <nav>
+    <nav>
+      <div class="nav-wrapper red darken-4">
+        <a href="#!" class="brand-logo"><img id="quillioLogoTiny" src="images/quillioLogoTiny.png" alt="Quillio Logo Tiny" height="60"></a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#/">Home</a></li>
+          <li><a href="#/about">About</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          <li><a href="#/">Home</a></li>
+          <li><a href="#/about">About</a></li>
+        </ul>
+      </div>
+    </nav>
+  
+  
+     <!--<nav>
         <div class="nav-wrapper red darken-4">
           
-          <a href="#" class="brand-logo"><img id="quillioLogoTiny" src="images/quillioLogoTiny.png" alt="Quillio Logo Tiny" height="60"></a>
+          <a href="#/" class="brand-logo"><img id="quillioLogoTiny" src="images/quillioLogoTiny.png" alt="Quillio Logo Tiny" height="60"></a>
           
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#/">Home</a></li>
-            <li><a href="#/About">About</a></li>
+            <li><a href="/#/">Home</a></li>
+            <li><a href="/#/about">About</a></li>
           </ul>
         </div>
-      </nav>
-       
+      </nav>-->
 
     <!-- Main -->
     <div class="container">
@@ -52,8 +67,13 @@
       </div>
       <div class="footer-copyright">
         <div class="container">
-          © 2016 Ismail Mustafa
-          <a class="grey-text text-lighten-4 right" href="https://handwriting.io">Powered by Handwriting.io</a>
+          <h6 class="grey-text text-lighten-4 left">Built by
+            <a class="grey-text text-lighten-4" href="http://ismailmustafa.com">Ismail Mustafa</a>
+          </h6>
+          <h6 class="grey-text text-lighten-4 right">Powered by 
+            <a class="grey-text text-lighten-4" href="https://handwriting.io">Handwriting.io</a> and 
+            <a class="grey-text text-lighten-4" href="https://twilio.com">Twilio</a></a> 
+          </h6>
         </div>
       </div>
     </footer>
