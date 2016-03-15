@@ -25,7 +25,7 @@ import           System.Environment
 import           Twilio
 
 baseUrl :: String
-baseUrl = "quillio.ink"
+baseUrl = "http://quillio.ink"
 
 type API = "api" :> "image"        :> QueryParam "red" Word8
                                    :> QueryParam "green" Word8
@@ -43,7 +43,7 @@ type API = "api" :> "image"        :> QueryParam "red" Word8
       :<|> Raw
 
 startApp :: IO ()
-startApp = run 8080 app
+startApp = run 80 app
 
 app :: Application
 app = serve api server
