@@ -86,17 +86,17 @@
       <div class="row">
         <!-- Buttons -->
           <!-- Update button -->
-        <button class="col s4 btn waves-effect waves-light red darken-4" type="submit" name="action" ng-disabled="inputForm.message.$invalid" ng-click='main.getImage()'>Update
+        <button class="col s12 m4 l2 offset-l1 btn waves-effect waves-light red darken-4" type="submit" name="action" ng-disabled="inputForm.message.$invalid" ng-click='main.getImage()'>Update
           <i class="material-icons right">replay</i>
         </button>
 
           <!-- Send button -->
-        <button class="col s3 offset-s1 btn waves-effect waves-light red darken-3" type="submit" name="action" ng-disabled="inputForm.phone.$error.pattern || main.phoneInput.length === 0" ng-click='main.sendImage()'>Send
+        <button class="col s12 m4 l2 offset-l2 btn waves-effect waves-light red darken-3" type="submit" name="action" ng-disabled="inputForm.phone.$error.pattern || main.phoneInput.length === 0" ng-click='main.sendImage()'>Send
           <i class="material-icons right">send</i>
         </button>
         
         <!-- Help button -->
-        <button data-target="modal1" class="col s3 offset-s1 btn waves-effect waves-light red darken-2 modal-trigger" type="submit" name="action">Help
+        <button class="col s12 m4 l2 offset-l2 btn waves-effect waves-light red darken-2 modal-trigger" data-target="modal1" type="submit" name="action">Help
           <i class="material-icons right">help</i>
         </button>
         
