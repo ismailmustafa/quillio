@@ -39,12 +39,8 @@ angular.module('frontendApp')
     
     // HTTP REQUESTS
     
-    // Initalize handwritings
-    this.handwritings.push("hello");
-    console.log(this.handwritings.length);
-    console.log("initialized");
     // Get all handwritings
-    $http.get('/api/handwritings').success(function(data) {
+    $http.get('/api/handwritings', {cache: true}).success(function(data) {
       mainScope.handwritings = data;
       mainScope.lookup = {};
       for (var i = 0, len = data.length; i < len; i++) {
@@ -111,11 +107,11 @@ angular.module('frontendApp')
     };
     
     // Generate arbitrary string for imageId
-    this.randomAlphaNumericString = function(x){
+    this.randomAlphaNumericString = function(x) {
     var s = '';
     while(s.length < x && x > 0){
         var r = Math.random();
-        s+= (r < 0.1 ? Math.floor(r*100) : String.fromCharCode(Math.floor(r*26) + (r > 0.5 ?97 : 65)));
+        s+= (r < 0.1 ? Math.floor(r*100) : String.fromCharCode(Math.floor(r*26) + (r > 0.5 ? 97 : 65)));
     }
     return s;
   };
