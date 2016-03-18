@@ -24,6 +24,7 @@ angular.module('frontendApp')
     this.handwritings = [];
     this.imageLoader = false;
     this.currentImageId = undefined;
+    this.updateClicked = false;
     this.displayError = false;
     
     // Setup responsive side menu
@@ -37,7 +38,7 @@ angular.module('frontendApp')
       $('.modal-trigger').leanModal();
     });
     
-    // HTTP REQUESTS
+    // -------------------- HTTP REQUESTS --------------------
     
     // Get all handwritings
     $http.get('/api/handwritings', {cache: true}).success(function(data) {
@@ -49,21 +50,34 @@ angular.module('frontendApp')
     });
     
     // Update handwriting image
-    this.getImage = function() {
+    this.getImage = function(shouldPostImage) {
 
       this.imageLoader = true;
+      
       this.currentImageId = this.randomAlphaNumericString(30);
-      console.log(this.handwritingStyle);
+
       if (this.handwritingStyle === undefined) { this.handwritingStyle = 'Whitwell'; }
+      
+      // Check if allHandwritings get request has returned
       if (this.handwritingStyle in this.lookup) {
         var queryString = '/api/image?red=' + this.redRangeValue + '&green=' + this.greenRangeValue + 
                                                               '&blue=' + this.blueRangeValue + '&imageId=' + this.currentImageId + 
                                                               '&handwritingId=' + this.lookup[this.handwritingStyle].handwritingId + 
                                                               '&text=' + this.messageInput;
         $http.get(queryString).success(function(data) {
-          mainScope.imageData = data;
-          mainScope.imageLoader = false;
-          Materialize.toast('updated image',2000);
+          // Should post image implies getImage had to be called when clicking send
+          if (shouldPostImage) {
+            mainScope.imageData = data;
+            mainScope.postImage();
+          }
+          // Send hasn't been clicked, update normally
+          else {
+            mainScope.updateClicked = true;
+            mainScope.imageData = data;
+            mainScope.imageLoader = false;
+            Materialize.toast('updated image',2000);
+          }
+          
         }).error(function() {
           mainScope.imageLoader = false;
           Materialize.toast('failed to update image',2000);
@@ -76,12 +90,24 @@ angular.module('frontendApp')
       }
     };
     
-    // Update handwriting image
-    this.sendImage = function() {
+    // Process cases for sending image as text message
+    this.handleImageSending = function() {
 
       this.imageLoader = true;
       
+      // Send clicked without pressing update
+      if (this.currentImageId === undefined || !this.updateClicked) {
+        this.getImage(true);
+      }
+      else {
+        this.postImage();
+      }
+    };
+    
+    // Send image as text message
+    this.postImage = function() {
       $http.post('/api/sendImage/?imageId='+this.currentImageId+'&phoneNumber=' + this.phoneInput).success(function() {
+          mainScope.updateClicked = false;
           mainScope.imageLoader = false;
           Materialize.toast('image sent',2000);
         }).error(function() {
@@ -90,7 +116,7 @@ angular.module('frontendApp')
       });
     };
     
-    // HELPER FUNCTIONS
+    // -------------------- HELPER FUNCTIONS --------------------
     
     this.changeColor = function () {
       // Convert to hex
